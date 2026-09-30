@@ -1,0 +1,21 @@
+# Vivazco Pipeline Requirements
+# Python 3.8+
+
+# Image Processing
+Pillow>=10.0.0
+numpy>=1.24.0
+opencv-python>=4.8.0
+
+# Optional: For advanced features
+# ComfyUI (instalar separadamente: https://github.com/comfyanonymous/ComfyUI)
+# torch (instalado com ComfyUI)
+# torchvision (instalado com ComfyUI)
+
+# Utilities
+python-dotenv>=1.0.0
+tqdm>=4.65.0
+
+# Development (opcional)
+# black>=23.0.0
+# pytest>=7.4.0
+# flake8>=6.0.0

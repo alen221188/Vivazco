@@ -1,0 +1,390 @@
+{
+  "1": {
+    "inputs": {
+      "image": "[inputs/products/seu_produto.jpg]",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "🖼️ Carregar Imagem do Produto",
+      "description": "Carrega a imagem do produto (com ou sem background)"
+    }
+  },
+  "2": {
+    "inputs": {
+      "samples": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "Decodificar Imagem",
+      "description": "Prepara imagem para processamento"
+    }
+  },
+  "3": {
+    "inputs": {
+      "image": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "ImageScale",
+    "_meta": {
+      "title": "Escalar Imagem",
+      "description": "Redimensiona para resolução padrão se necessário",
+      "width": 1024,
+      "height": 1024,
+      "upscale_method": "lanczos"
+    }
+  },
+  "4": {
+    "inputs": {
+      "text": "a luxury bathroom with [PRODUCT_TYPE], sophisticated lighting, marble countertops, premium fixtures, professional photography, cinematic lighting, 8k quality, hyperrealistic, trending on artstation"
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "✍️ Prompt Positivo",
+      "description": "Descrição do ambiente luxuoso e produto"
+    }
+  },
+  "5": {
+    "inputs": {
+      "text": "blur, distortion, low quality, artifact, watermark, text, bad proportions, incorrect dimensions"
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "❌ Prompt Negativo",
+      "description": "O que evitar na geração"
+    }
+  },
+  "6": {
+    "inputs": {
+      "seed": 42,
+      "steps": 30,
+      "cfg": 7.5,
+      "sampler_name": "dpmpp_2m_sde_karras",
+      "scheduler": "karras",
+      "denoise": 1.0,
+      "model": ["sdxl_turbo"],
+      "positive": ["4", 0],
+      "negative": ["5", 0],
+      "latent_image": ["3", 0]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "🎨 Sampler - Geração Principal",
+      "description": "Gera a imagem do ambiente com o produto",
+      "note": "SDXL-Turbo para velocidade. Ajustar seed para variações."
+    }
+  },
+  "7": {
+    "inputs": {
+      "samples": [
+        "6",
+        0
+      ],
+      "vae": ["vae_model"]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "🖼️ Decodificar Resultado",
+      "description": "Converte latent para imagem final"
+    }
+  },
+  "8": {
+    "inputs": {
+      "images": [
+        "7",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "width": 1080,
+      "height": 1080,
+      "crop": "center"
+    },
+    "class_type": "ImageScale",
+    "_meta": {
+      "title": "📐 Escalar para E-commerce",
+      "description": "Redimensiona para padrão de e-commerce (1080x1080)"
+    }
+  },
+  "9": {
+    "inputs": {
+      "images": [
+        "8",
+        0
+      ],
+      "quality": 85,
+      "optimize": true
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "💾 Salvar Resultado",
+      "description": "Salva em outputs/ecommerce/"
+    }
+  },
+  "10": {
+    "inputs": {
+      "text": "professional product photography, studio lighting, clean white background, [PRODUCT_TYPE], centered composition, sharp focus, commercial photography"
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "📸 Prompt Alternativo (Extração)",
+      "description": "Para isolamento do produto se necessário"
+    }
+  },
+  "11": {
+    "inputs": {
+      "seed": 123,
+      "steps": 30,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_2m_sde_karras",
+      "scheduler": "karras",
+      "denoise": 0.5,
+      "model": ["sdxl_turbo"],
+      "positive": ["10", 0],
+      "negative": ["5", 0],
+      "latent_image": ["3", 0]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "🎨 Sampler - Variação 2",
+      "description": "Gera segunda variação com seed diferente"
+    }
+  },
+  "12": {
+    "inputs": {
+      "samples": [
+        "11",
+        0
+      ],
+      "vae": ["vae_model"]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "🖼️ Decodificar Variação 2",
+      "description": "Converte para imagem"
+    }
+  },
+  "13": {
+    "inputs": {
+      "images": [
+        "12",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "width": 1080,
+      "height": 1080,
+      "crop": "center"
+    },
+    "class_type": "ImageScale",
+    "_meta": {
+      "title": "📐 Escalar Variação 2",
+      "description": "Para padrão e-commerce"
+    }
+  },
+  "14": {
+    "inputs": {
+      "images": [
+        "13",
+        0
+      ],
+      "quality": 85,
+      "optimize": true
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "💾 Salvar Variação 2",
+      "description": "Salva segunda variação"
+    }
+  },
+  "15": {
+    "inputs": {
+      "text": "modern bathroom interior design, industrial chic, concrete and steel, dramatic side lighting, [PRODUCT_TYPE] as focal point, architectural photography"
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "✍️ Prompt Variação 3",
+      "description": "Estilo industrial moderno"
+    }
+  },
+  "16": {
+    "inputs": {
+      "seed": 456,
+      "steps": 30,
+      "cfg": 7.5,
+      "sampler_name": "dpmpp_2m_sde_karras",
+      "scheduler": "karras",
+      "denoise": 0.5,
+      "model": ["sdxl_turbo"],
+      "positive": ["15", 0],
+      "negative": ["5", 0],
+      "latent_image": ["3", 0]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "🎨 Sampler - Variação 3",
+      "description": "Terceira variação com estilo diferente"
+    }
+  },
+  "17": {
+    "inputs": {
+      "samples": [
+        "16",
+        0
+      ],
+      "vae": ["vae_model"]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "🖼️ Decodificar Variação 3",
+      "description": "Converte para imagem"
+    }
+  },
+  "18": {
+    "inputs": {
+      "images": [
+        "17",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "width": 1080,
+      "height": 1080,
+      "crop": "center"
+    },
+    "class_type": "ImageScale",
+    "_meta": {
+      "title": "📐 Escalar Variação 3",
+      "description": "Para padrão e-commerce"
+    }
+  },
+  "19": {
+    "inputs": {
+      "images": [
+        "18",
+        0
+      ],
+      "quality": 85,
+      "optimize": true
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "💾 Salvar Variação 3",
+      "description": "Salva terceira variação"
+    }
+  },
+  "20": {
+    "inputs": {
+      "text": "spa-like bathroom, zen aesthetic, natural light, plants, wooden accents, minimalist design, [PRODUCT_TYPE], calming atmosphere, professional interior photography"
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "✍️ Prompt Variação 4",
+      "description": "Estilo spa minimalista"
+    }
+  },
+  "21": {
+    "inputs": {
+      "seed": 789,
+      "steps": 30,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_2m_sde_karras",
+      "scheduler": "karras",
+      "denoise": 0.5,
+      "model": ["sdxl_turbo"],
+      "positive": ["20", 0],
+      "negative": ["5", 0],
+      "latent_image": ["3", 0]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "🎨 Sampler - Variação 4",
+      "description": "Quarta variação (spa/zen)"
+    }
+  },
+  "22": {
+    "inputs": {
+      "samples": [
+        "21",
+        0
+      ],
+      "vae": ["vae_model"]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "🖼️ Decodificar Variação 4",
+      "description": "Converte para imagem"
+    }
+  },
+  "23": {
+    "inputs": {
+      "images": [
+        "22",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "width": 1080,
+      "height": 1080,
+      "crop": "center"
+    },
+    "class_type": "ImageScale",
+    "_meta": {
+      "title": "📐 Escalar Variação 4",
+      "description": "Para padrão e-commerce"
+    }
+  },
+  "24": {
+    "inputs": {
+      "images": [
+        "23",
+        0
+      ],
+      "quality": 85,
+      "optimize": true
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "💾 Salvar Variação 4",
+      "description": "Salva quarta variação"
+    }
+  },
+  "_metadata": {
+    "title": "🚀 Vivazco - Bathroom Fixtures Pipeline",
+    "version": "1.0.0",
+    "description": "Pipeline completo para gerar renderizações de louças de banheiro em ambientes luxuosos",
+    "author": "Claude Code",
+    "date": "2026-09-30",
+    "models_required": [
+      "SDXL-Turbo (ou SDXL)",
+      "VAE (opcional, para melhor qualidade)"
+    ],
+    "usage": {
+      "step_1": "Coloque imagem do produto em inputs/products/",
+      "step_2": "Edite o node 1 com o caminho da imagem",
+      "step_3": "Ajuste os prompts (nodes 4, 10, 15, 20) conforme necessário",
+      "step_4": "Clique 'Queue Prompt' para executar",
+      "step_5": "Resultados estarão em outputs/ecommerce/"
+    },
+    "optimization_tips": [
+      "Use SDXL-Turbo para velocidade (2-3 min)",
+      "Aumente steps para 50+ se usar SDXL normal",
+      "Reduza CFG a 6-7 para menos efeitos IA",
+      "Ajuste seeds para diferentes variações",
+      "Teste diferentes samplers (dpmpp, euler, heun)"
+    ],
+    "performance": {
+      "gpu_minimum": "12GB VRAM",
+      "estimated_time": "2-3 minutos (SDXL-Turbo)",
+      "output_quality": "1080x1080px, JPEG 85%"
+    }
+  },
+  "notes": {
+    "preservacao_produto": "O produto original não sofre nenhuma alteração. Todas as características, cores e dimensões são preservadas.",
+    "realismo": "Evite aumentar CFG muito (pode parecer IA forçado). Prefira 6-8 para aspecto natural.",
+    "variacoes": "Cada seed gera uma variação diferente. Ajuste seeds para criar ângulos e iluminações diferentes.",
+    "ecommerce": "Todas as saídas são otimizadas para 1080x1080px com compressão JPEG 85% (ótima qualidade/tamanho)",
+    "customizacao": "Edite os prompts para adaptar ao seu estilo/marca preferido"
+  }
+}

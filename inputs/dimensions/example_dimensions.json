@@ -1,0 +1,63 @@
+{
+  "_comentario": "Exemplo de arquivo de dimensões. Renomeie para dimensions.json para usar.",
+
+  "cuba_preta_luxo": {
+    "Tipo": "Cuba/Pia de Banheiro",
+    "Material": "Cerâmica",
+    "Acabamento": "Preto Fosco",
+    "Comprimento": "65 cm",
+    "Profundidade": "45 cm",
+    "Altura": "15 cm",
+    "Capacidade": "25 litros",
+    "Peso": "12 kg",
+    "Instalação": "Acima do balcão (Vessel)",
+    "Furos": "1 furo para torneira",
+    "Garantia": "5 anos"
+  },
+
+  "sanitario_branco_moderno": {
+    "Tipo": "Vaso Sanitário",
+    "Material": "Cerâmica Vitrificada",
+    "Acabamento": "Branco Brilhante",
+    "Comprimento": "70 cm",
+    "Profundidade": "80 cm",
+    "Altura": "40 cm",
+    "Assento": "Assento Macio Fechamento Suave",
+    "Descarga": "6 ou 3 litros",
+    "Tipo de Instalação": "Parede ou Solo",
+    "Conexão": "Universal",
+    "Consumo de Água": "3.6L por descarga",
+    "Certificação": "NBR ISO 6628"
+  },
+
+  "pia_marmore_branco": {
+    "Tipo": "Pia de Balcão",
+    "Material": "Mármore Branco de Carrara",
+    "Acabamento": "Polido",
+    "Comprimento": "80 cm",
+    "Profundidade": "50 cm",
+    "Altura": "20 cm",
+    "Profundidade da Cuba": "12 cm",
+    "Peso": "35 kg",
+    "Diâmetro do Furo": "40 mm",
+    "Número de Furos": "1",
+    "Instalação": "Sobre o balcão",
+    "Espessura": "25 mm",
+    "Vedação": "Selante à base de silicone"
+  },
+
+  "torneira_bronze": {
+    "Tipo": "Torneira Monocomando",
+    "Material": "Latão",
+    "Acabamento": "Bronze Envelhecido",
+    "Altura": "35 cm",
+    "Alcance da Bica": "20 cm",
+    "Tipo de Bica": "Curva Agressiva",
+    "Conexão": "1/2 polegada",
+    "Vazão": "6 litros/minuto",
+    "Pressão Mínima": "1,0 bar",
+    "Temperatura Máxima": "80°C",
+    "Instalação": "Monoburaco",
+    "Acabamento": "Resistente a Calcário"
+  }
+}
